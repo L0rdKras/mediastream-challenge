@@ -45,8 +45,49 @@ export default class MyApp extends React.Component {
 
 
 class List extends React.Component {
-  // TODO
+  constructor(props){
+    super(props)
+  }
   render() {
+    let Titulo = 'Titulo Default'
+    if (this.props.children) Titulo = this.props.children.props.children
+    const dates = this.props.dates
+    const listItems = dates.map((date) =>
+      <Row showDate={date} key={date} />
+    )
+    if(this.props.dates.length>0)
+      return (
+        <div>
+          <h1>{Titulo}</h1>
+          {listItems}
+        </div>
+      )
     return null;
+  }
+}
+
+class Row extends React.Component {
+  constructor(props){
+    super(props)
+  }
+  render () {
+    return(<h2 onClick={this.handleOnClick.bind(this)}>{this.convertirFecha(this.props.showDate)}</h2>)
+  }
+  convertirFecha (data){
+    const date = new Date(data);
+    const year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let dt = date.getDate();
+
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+
+    const months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    return dt +'-' + months[month] + '-'+year
+  }
+
+  handleOnClick (event) {
+    alert(event.target.textContent)
   }
 }
